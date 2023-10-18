@@ -134,6 +134,7 @@ import numpy as np
 import numpy.typing as npt
 import PIL.Image
 import PIL.ImageOps
+from tqdm.auto import tqdm
 
 if not hasattr(PIL.Image, 'Resampling'):  # Allow Pillow<9.0.
   PIL.Image.Resampling = PIL.Image
@@ -1735,7 +1736,7 @@ def write_video(path: _Path, images: Iterable[_NDArray], **kwargs: Any) -> None:
     dtype = np.dtype(np.uint16)
   kwargs = {'metadata': getattr(images, 'metadata', None), **kwargs}
   with VideoWriter(path, shape=shape, dtype=dtype, **kwargs) as writer:
-    for image in images:
+    for image in tqdm(images, total=len(images), desc="Writing", colour="purple":
       writer.add_image(image)
 
 
