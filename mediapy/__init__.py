@@ -1714,7 +1714,7 @@ def read_video(path_or_url: _Path, **kwargs: Any) -> _VideoArray:
     return _VideoArray(np.array(tuple(reader)), metadata=reader.metadata)
 
 
-def write_video(path: _Path, images: Iterable[_NDArray], **kwargs: Any) -> None:
+def write_video(path: _Path, images: Iterable[_NDArray], vidlength: int, **kwargs: Any) -> None:
   """Writes images to a compressed video file.
 
   >>> video = moving_circle((480, 640), num_images=60)
@@ -1736,7 +1736,7 @@ def write_video(path: _Path, images: Iterable[_NDArray], **kwargs: Any) -> None:
     dtype = np.dtype(np.uint16)
   kwargs = {'metadata': getattr(images, 'metadata', None), **kwargs}
   with VideoWriter(path, shape=shape, dtype=dtype, **kwargs) as writer:
-    for image in tqdm(images, total=len(images), desc="Writing", colour="purple":
+    for image in tqdm(images, total=vidlength, desc="Writing", colour="purple"):
       writer.add_image(image)
 
 
